@@ -9,11 +9,11 @@ const char* password = "12345678";
 
 ESP8266WebServer server(80);
 
-const int piezoPin = D0;
-const int BTN1 = D1;
-const int BTN2 = D2;
-const int BTN3 = D3;
-const int BTN4 = D4;
+const int piezoPin = D4;
+const int BTN1 = D0;
+const int BTN2 = D1;
+const int BTN3 = D2;
+const int BTN4 = D3;
 const int BTN5 = D5;
 const int BTN6 = D6;
 const int BTN7 = D7;
@@ -62,10 +62,20 @@ void setup() {
 
 void loop() {
   if (digitalRead(BTN1) == LOW) {
-    Serial.println("true");
     handleStartNote("C");
+  } else if (digitalRead(BTN2) == LOW) {
+    handleStartNote("D");
+  } else if (digitalRead(BTN3) == LOW) {
+    handleStartNote("E");
+  } else if (digitalRead(BTN4) == LOW) {
+    handleStartNote("F");
+  } else if (digitalRead(BTN5) == LOW) {
+    handleStartNote("G");
+  } else if (digitalRead(BTN6) == LOW) {
+    handleStartNote("A");
+  } else if (digitalRead(BTN7) == LOW) {
+    handleStartNote("B");
   } else {
-    Serial.println("false");
     noTone(piezoPin);
   }
   server.handleClient();
@@ -81,7 +91,6 @@ void handleRoot() {
 void handleStartNote(String note) {
   float frequency = 0;
 
-  // Основные ноты
   if (note == "C") {
     frequency = C;  // Нота C (До)
   }
@@ -146,15 +155,23 @@ void handlePlaySong() {
 
 void playCrazyFrog() {
   float melody[] = {
-    F, GS, F, F, F, AS, F, DS,
+    F, GS, F, F, AS, F, DS,
+    F, 523.26, F, F, 554.36, 523.26, AS,
+    F, 523.26, 698.46, F, DS, DS, C, G, F,
+    698.46, 698.46
   };
   int noteDurations[] = {
-    4, 4, 6, 10, 8, 8, 4, 4,
+    3, 4, 6, 10, 6, 5, 5,
+    3, 4, 6, 10, 6, 5, 5,
+    5, 6, 6, 8, 6, 10, 6, 5, 2,
+    2, 2
   };
-  for (int thisNote = 0; thisNote < 8; thisNote++) {
-    int noteDuration = 1000 / noteDurations[thisNote];
-    tone(piezoPin, melody[thisNote], noteDuration);
-    delay(noteDuration * 1.3);
+  for (int i = 0; i < 3; i++) {
+    for (int thisNote = 0; thisNote < 25; thisNote++) {
+      int noteDuration = 1000 / noteDurations[thisNote];
+      tone(piezoPin, melody[thisNote], noteDuration);
+      delay(noteDuration * 1.3);
+    } 
   }
 }
 
