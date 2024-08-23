@@ -18,6 +18,7 @@ const int BTN4 = D3;
 const int BTN5 = D5;
 const int BTN6 = D6;
 const int BTN7 = D7;
+const int BTN8 = D8;
 const float C = 261.63;
 const float CS = 277.18;
 const float D = 293.66;
@@ -41,6 +42,7 @@ void setup() {
   pinMode(BTN5, INPUT_PULLUP);
   pinMode(BTN6, INPUT_PULLUP);
   pinMode(BTN7, INPUT_PULLUP);
+  pinMode(BTN8, INPUT_PULLUP);
   Serial.begin(115200);
   
   // Подключение к Wi-Fi
@@ -77,20 +79,30 @@ void setup() {
 }
 
 void loop() {
-  if (digitalRead(BTN1) == LOW) {
+  if (digitalRead(BTN1) == LOW && digitalRead(BTN8) == HIGH) {
     handleStartNote("C");
-  } else if (digitalRead(BTN2) == LOW) {
+  } else if (digitalRead(BTN2) == LOW && digitalRead(BTN8) == HIGH) {
     handleStartNote("D");
-  } else if (digitalRead(BTN3) == LOW) {
+  } else if (digitalRead(BTN3) == LOW && digitalRead(BTN8) == HIGH) {
     handleStartNote("E");
-  } else if (digitalRead(BTN4) == LOW) {
+  } else if (digitalRead(BTN4) == LOW && digitalRead(BTN8) == HIGH) {
     handleStartNote("F");
-  } else if (digitalRead(BTN5) == LOW) {
+  } else if (digitalRead(BTN5) == LOW && digitalRead(BTN8) == HIGH) {
     handleStartNote("G");
-  } else if (digitalRead(BTN6) == LOW) {
+  } else if (digitalRead(BTN6) == LOW && digitalRead(BTN8) == HIGH) {
     handleStartNote("A");
-  } else if (digitalRead(BTN7) == LOW) {
+  } else if (digitalRead(BTN7) == LOW && digitalRead(BTN8) == HIGH) {
     handleStartNote("B");
+  } else if (digitalRead(BTN1) == LOW && digitalRead(BTN8) == LOW) {
+    handleStartNote("CS");
+  } else if (digitalRead(BTN2) == LOW && digitalRead(BTN8) == LOW) {
+    handleStartNote("DS");
+  } else if (digitalRead(BTN4) == LOW && digitalRead(BTN8) == LOW) {
+    handleStartNote("FS");
+  } else if (digitalRead(BTN5) == LOW && digitalRead(BTN8) == LOW) {
+    handleStartNote("GS");
+  } else if (digitalRead(BTN6) == LOW && digitalRead(BTN8) == LOW) {
+    handleStartNote("AS");
   } else {
     noTone(piezoPin);
   }
